@@ -104,9 +104,9 @@ for (i in 1:length(my_vector)) {
 
 ### Nested Looping, An Example with Real Data ###
 
-# Lets read in some data (first make sure your working idrectory is set to the
+# Lets read in some data (first make sure your working directory is set to the
 # folder where the data are stored):
-setwd("~/Desktop")
+setwd("~/Box Sync/ISSR_Data_Management_Web_Scraping_2018/Data")
 load("Looping_Conditionals_Example_Data.RData")
 
 # In this example, we are going to work with a dataset of metadata on all bills

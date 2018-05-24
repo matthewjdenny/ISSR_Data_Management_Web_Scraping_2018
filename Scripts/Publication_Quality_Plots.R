@@ -11,8 +11,8 @@
 # well!
 
 # Start by installing ggplot2 and gridExtra:
-install.packages("ggplot2", dependencies = TRUE)
-install.packages("gridExtra", dependencies = TRUE)
+# install.packages("ggplot2", dependencies = TRUE)
+# install.packages("gridExtra", dependencies = TRUE)
 
 # Preliminaries:
 rm(list = ls())
@@ -20,12 +20,15 @@ library(ggplot2)
 library(gridExtra)
 
 # set your working directory (for me, this looks like):
-setwd("~/Desktop")
+setwd("~/Box Sync/ISSR_Data_Management_Web_Scraping_2018/Data")
 # Lets load in some "data" we will use in this tutorial:
 load("LaCour_Data.Rdata")
 load("Influence_Data.Rdata")
 load("Influence_Data_2.Rdata")
 
+# now set your working idrectory where you would like plots to be saved. For me,
+# this looks like:
+setwd("~/Desktop")
 
 # Here, I am going to go over an example plot, then see how we can improve on
 # it. Note that the code I will use below is taken directly from:
