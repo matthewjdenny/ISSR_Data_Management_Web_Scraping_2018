@@ -1,12 +1,14 @@
 ##### Generating Publication Quality Graphics #####
 
-
 # In this script, I will provide several examples and seek to introduce you to
 # the kinds of things one should always do to produce really clean plots for
 # publication. I cannot possibly hope to cover every situation, but I always
 # find myself doing the same sorts of things whenever I make plots for
 # publication. This is really where R shines. We will be using the base R
-# graphics and ggplot2.
+# graphics and ggplot2. The takeaway point here is that I am providing you with
+# working example graphs you can tweak and steal code from to try with your own
+# data. This is how I got my start plotting, so I hope you find this helpful as
+# well!
 
 # Start by installing ggplot2 and gridExtra:
 install.packages("ggplot2", dependencies = TRUE)
@@ -17,18 +19,19 @@ rm(list = ls())
 library(ggplot2)
 library(gridExtra)
 
+# set your working directory (for me, this looks like):
+setwd("~/Desktop")
 # Lets load in some "data" we will use in this tutorial:
-setwd("~/Documents/RA_and_Consulting_Work/ISSR_Data_Management_Web_Scraping_2017/Data")
 load("LaCour_Data.Rdata")
 load("Influence_Data.Rdata")
 load("Influence_Data_2.Rdata")
 
-# Now lets set the working directory where we would like to save our plots:
-setwd("~/Desktop")
 
-# This code is taken from:
+# Here, I am going to go over an example plot, then see how we can improve on
+# it. Note that the code I will use below is taken directly from:
 # https://stanford.edu/~dbroock/broockman_kalla_aronow_lg_irregularities.pdf
-# page 5.
+# page 5. This is an interesting paper in and of itself, as the data we are
+# using were for a paper that was publsihed in Science, but are acutally fake.
 
 # Start by subsetting the data:
 lacour.therm.study1 <- subset(LaCour_Data,
@@ -93,11 +96,12 @@ dev.off() # ends the plot
 # play around with them for a while and examine the output.
 
 # Lets try another example from a paper I wrote:
-# http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2465309
+# https://ssrn.com/abstract=2465309
 
 # First, lets try a plot of the number of successful floor amendments
 # sponsored by each U.S. Senate committee leader (chair or ranking member) in
-# each of 12 sessions of Congress (demeaned within session of Congress):
+# each of 12 sessions of Congress (demeaned within session of Congress). We are
+# going to use the "data" data.frame for this part:
 plot(x = data$Congress,
      y = data$Floor_Amendments)
 
@@ -115,19 +119,18 @@ plot(x = data$Congress,
 # a plot one element at a time and saving it to the object 'g1'. We will then
 # combine several of these objects and plot them side by side. Lets give it a
 # try:
-g1 <- ggplot(data ,
-             aes(x = Congress,
-                 y = Floor_Amendments)) + # tells us what data we are using
-    geom_point() + # includes a point on the plot for each observation
-    stat_smooth(method = lm) + # includes a regression line with confidence 95%
+g1 <- ggplot(data , # the name of the data.frame we are using
+             aes(x = Congress, # name of x variable column
+                 y = Floor_Amendments)) + # name of Y variable column
+    geom_point() + # includes a point on the plot for each (x,y) observation
+    stat_smooth(method = lm) + # includes a regression line with 95% confidence
     # bounds.
     ylab("Successful Floor Amendments") + # the y label for the graph
     xlab("Session of Congress") + # the x label for the graph
     scale_x_continuous(name = "Session of Congress",
-                       breaks = 1:12,
-                       minor_breaks = waiver(),
-                       labels = 97:108) # make our own custom scale for the
-                                        # x axis.
+                       breaks = 1:12, # where to put x-axis tick marks
+                       minor_breaks = waiver(), # no minor tick marks
+                       labels = 97:108) # custom labels
 
 # Now we make similar plots (with a different y value) for two other measures:
 g2 <- ggplot(data , aes(x = Congress, y = Connectedness)) +
@@ -145,7 +148,7 @@ g3 <- ggplot(data , aes(x = Congress, y = Influence)) +
     xlab("Session of Congress") +
     scale_x_continuous(name = "Session of Congress",
                        breaks = 1:12,
-                       minor_breaks = NULL, # removes minor breaks
+                       minor_breaks = waiver(),
                        labels = 97:108)
 
 # Finally, we can generate the plot and save it to a .pdf:

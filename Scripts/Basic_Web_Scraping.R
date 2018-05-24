@@ -8,13 +8,10 @@ setwd("~/Desktop")
 # First we will need to install the packages we plan to use for this exercise (
 # if they are not already installed on your computer).
 # install.packages("httr", dependencies = TRUE)
-# install.packages("rvest", dependencies = TRUE)
 # install.packages("stringr", dependencies = TRUE)
 
 # httr is a package for downloading html
 library(httr)
-# A more advanced web scraping package we will use later
-library(rvest)
 # A package for manipulating strings
 library(stringr)
 
@@ -63,6 +60,9 @@ write.table(x = page_content,
             quote = FALSE,
             file = "Example_2.html")
 
+
+
+### Web Scraping Example, Part 1 ###
 
 url <- "https://scholar.google.com/scholar?hl=en&q=https://scholar.google.com/scholar?hl=en&q=laurel+smith-doerr"
 
@@ -117,13 +117,14 @@ get_google_scholar_results <- function(string,
     page <- httr::GET(str)
     page <- httr::content(page, "text")
 
-    # this method used to work but Google has updated their web pages so it fails
-    # page <- getURLContent(str, .opts = list(ssl.verifypeer = FALSE))
+    ### Web Scraping Example, Part 2 ###
+
+
 
     # search for the 'Scholar</a><div id="gs_ab_md">' string which occurs
     # uniquely right before google Scholar tells you how many results your
     # querry returned
-    num_results <- str_split(page,'<div id=\\"gs_ab_md\\">')[[1]][2]
+    num_results <- str_split(page,'<div id=\\"gs_ab_md\\"><div class=\\"gs_ab_mdw\\">')[[1]][2]
 
     # split the resulting string on the fist time you see a "(" as this will
     # signify the end of the text string telling you how many results were
@@ -136,7 +137,7 @@ get_google_scholar_results <- function(string,
     # Look to see if the "User profiles" string is present -- grepl will return
     # true if the specified text ("User profiles") is contained in the web page
     # source.
-    if(grepl("User profiles",page)){
+    if (grepl("User profiles",page)) {
 
         # split the web page source (which is all one string) on the "Cited by "
         # string and then take the second chunk of the resulting vector of
@@ -150,7 +151,7 @@ get_google_scholar_results <- function(string,
 
         # now let the user know how many we found
         cat("Number of Cites:",num_cites,"\n")
-    }else{
+    } else {
         # If we could not find the "User profiles" string, then the person
         # probably does not have a profile on Google Scholar and we should let
         # the user know this is the case
@@ -169,6 +170,6 @@ get_google_scholar_results("Joya Misra")
 
 get_google_scholar_results("Laurel Smith-Doerr")
 
-get_google_scholar_results("Nilanjana dasgupta")
+get_google_scholar_results("Nilanjana Dasgupta")
 
 page_source <- get_google_scholar_results("Gary Becker",return_source = TRUE)

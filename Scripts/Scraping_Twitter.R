@@ -4,12 +4,18 @@
 # Before you do anything with this tutorial, make sure you have a Twitter
 # account. You will need one to get the proper access to download tweets.
 
-install.packages(c("ROAuth","devtools","ggplot2","maps"),
-                 repos = "http://cran.r-project.org")
-# R packages to get twitter and Facebook data
-devtools::install_github("pablobarbera/streamR/streamR")
 
-# before you can scrape Twitter, you will need to follow the directions here:
+
+### Letting R access the Twitter API ###
+
+# Lets start by downloading the R packages we will need:
+install.packages(c("ROAuth","devtools","ggplot2","maps", "streamR"),
+                 repos = "http://cran.r-project.org")
+
+# Alternatively we can get the latest version from Pablo's github:
+# devtools::install_github("pablobarbera/streamR/streamR", force = TRUE)
+
+# Before you can scrape Twitter, you will need to follow the directions here:
 # https://github.com/SMAPPNYU/smappR#b-creating-your-own-twitter-oauth-token
 # to create an authorization token which can be used access the Twitter API.
 
@@ -35,7 +41,11 @@ my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem",
 
 # Now save your credentials for future use!
 setwd("~/Dropbox/Credentials/")
-save(my_oauth, file = "my_oauth.Rdata")
+save(my_oauth, file = "my_oauth.RData")
+
+
+
+### Twitter Scraping Example, Part 1 ###
 
 # Now lets walk through a simple example collecting tweets containing the
 # terms "Trump" and "POTUS" in the next sixty seconds. This example follows
@@ -54,10 +64,10 @@ setwd("~/Desktop")
 
 # Here we are going to use the filter function which uses dome sort of criteria
 # for determining which tweets should be saved.
-filterStream("tweets.json",
-             track = c("Trump", "POTUS"),
-             timeout = 60,
-             oauth = my_oauth)
+filterStream("tweets.json", # name of file that we want to save tweets to.
+             track = c("Trump", "POTUS"), # key terms to collect.
+             timeout = 60, # amount of time to collect data in seconds.
+             oauth = my_oauth) # your token!
 
 # Load in the tweets from the tweets.json file where they were stored and turn
 # them into a data.frame:
@@ -79,17 +89,20 @@ tweets.df2 <- parseTweets("tweetsSample.json",
                          verbose = FALSE)
 
 
+
+### Twitter Scraping Example, Part 2 ###
+
 # Now we can follow Pablo's example and filter on tweets located in the U.S. and
 # overlay them on a map.
 
 # start by filtering the stream on location (lat/long)
-filterStream("tweetsUS.json",
-             locations = c(-125, 25, -66, 50),
+filterStream("tweets_USA.json", # the name of the file where we download tweets.
+             locations = c(-125, 25, -66, 50), # bottom left, then top right (lat long pairs).
              timeout = 120,
              oauth = my_oauth)
 
 # Parse tweets:
-tweets.USA <- parseTweets("tweetsUS.json",
+tweets_USA <- parseTweets("tweets_USA.json",
                           verbose = FALSE)
 
 # Load libraries necessary for plotting:
@@ -100,19 +113,20 @@ library(maps)
 map.data <- map_data("state")
 
 # Get the points we are going to plot:
-points <- data.frame(x = as.numeric(tweets.USA$place_lon),
-                     y = as.numeric(tweets.USA$place_lat))
-points <- points[points$y > 0, ]
+tweet_locations <- data.frame(x = as.numeric(tweets_USA$place_lon),
+                     y = as.numeric(tweets_USA$place_lat))
+tweet_locations <- tweet_locations[tweet_locations$y > 0, ]
 
 
-# Plot the points on the map using ggplot2:
-ggplot(map.data) + geom_map(aes(map_id = region),
+# Plot the tweet_locations on the map using ggplot2:
+map <- ggplot(map.data)
+map <- map + geom_map(aes(map_id = region),
                             map = map.data,
                             fill = "white",
-                            color = "grey20",
-                            size = 0.25) +
-    expand_limits(x = map.data$place_long, y = map.data$place_lat) +
-    theme(axis.line = element_blank(),
+                            color = "grey40",
+                            size = 0.25)
+map <- map + expand_limits(x = map.data$place_long, y = map.data$place_lat)
+map <- map + theme(axis.line = element_blank(),
           axis.text = element_blank(),
           axis.ticks = element_blank(),
           axis.title = element_blank(),
@@ -120,9 +134,11 @@ ggplot(map.data) + geom_map(aes(map_id = region),
           panel.border = element_blank(),
           panel.grid.major = element_blank(),
           plot.background = element_blank(),
-          plot.margin = unit(0 * c(-1.5, -1.5, -1.5, -1.5), "lines")) +
-    geom_point(data = points,
+          plot.margin = unit(0 * c(-1.5, -1.5, -1.5, -1.5), "lines"))
+map <- map + geom_point(data = tweet_locations,
                aes(x = x, y = y),
                size = 1,
                alpha = 1/5,
                color = "darkblue")
+
+print(map)
