@@ -7,7 +7,7 @@ setwd("~/Desktop")
 
 # packages
 # install.packages("ggplot2", dependencies = TRUE)
-# # install.packages("scales", dependencies = TRUE)
+# install.packages("scales", dependencies = TRUE)
 library(ggplot2)
 library(scales)
 
