@@ -1,0 +1,7 @@
+
+LaTeX/
+Handouts/
+*.Rout
+.RData
+Scripts/.Rhistory
+Data/.Rhistory
