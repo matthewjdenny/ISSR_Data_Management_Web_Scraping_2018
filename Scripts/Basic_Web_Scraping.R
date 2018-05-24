@@ -87,7 +87,7 @@ write.table(x = page_content,
 
 # now lets think about what we might like to extract from this page?
 
-# lets look inside the function
+# Lets look inside the function below:
 string <- "Laurel Smith-Doerr"
 return_source <- FALSE
 
@@ -172,4 +172,4 @@ get_google_scholar_results("Laurel Smith-Doerr")
 
 get_google_scholar_results("Nilanjana Dasgupta")
 
-page_source <- get_google_scholar_results("Gary Becker",return_source = TRUE)
+page_source <- get_google_scholar_results("Reka Albert",return_source = TRUE)
