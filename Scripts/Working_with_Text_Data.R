@@ -4,9 +4,8 @@
 rm(list = ls())
 setwd("~/Desktop")
 
-# We are going to be using the stringr package for the first part of this
-# tutorial:
-install.packages("stringr", dependencies = TRUE)
+# We are going to be using the stringr package for this tutorial:
+#install.packages("stringr", dependencies = TRUE)
 library(stringr)
 
 

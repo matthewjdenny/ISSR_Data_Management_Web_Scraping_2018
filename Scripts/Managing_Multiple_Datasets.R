@@ -5,9 +5,9 @@
 # Some preliminaries:
 rm(list = ls())
 
-# Set your working directory to the "Data" directory associated with this topic.
-# For me, this looks like:
-setwd("~/Desktop/Data")
+# Set your working directory to the "Senate_Cosponsorship" subdirectory of the
+# "Data" directory associated with this workshop. For me, this looks like:
+setwd("~/Box Sync/ISSR_Data_Management_Web_Scraping_2018/Data/Senate_Cosponsorship")
 
 # We are going to be looking at a dataset that comprises legislative
 # cosponsorship activity for 11 sessions of the U.S. Senate (22 years). It is
@@ -59,8 +59,6 @@ for (i in 1:length(filenames)) {
 # now let's set names for each list entry
 names(cosponsorship_data) <-  paste("Congress",100:110, sep = "_")
 
-
-
 ### Processing Multiple Datasets ###
 
 cat("Transforming Raw Data Into Cosponsorship Matrices...\n")
@@ -68,7 +66,7 @@ cat("Transforming Raw Data Into Cosponsorship Matrices...\n")
 # Loop over sessions of Congress:
 for (i in 1:length(filenames)) {
     # Let the user know what iteration we are on:
-    cat("Currently on dataset number: ",i,"\n")
+    cat("Currently on dataset number:",i,"\n")
 
     # Extract the raw data so we can use it:
     temp <- cosponsorship_data[[i]]$raw_data
@@ -244,11 +242,9 @@ load_and_preprocess_cosponsorship_data <- function (filenames,
 }
 
 # Lets try it out!
-setwd("~/Desktop/Data")
-filenames <- list.files()
-
 cosponsorship_data_2 <- load_and_preprocess_cosponsorship_data(filenames,
                                                                columns_to_keep = 100)
 
-
-
+# check to see if we get the same results:
+names(cosponsorship_data) <- paste("Dataset",1:length(filenames), sep = "_")
+all.equal(cosponsorship_data,cosponsorship_data_2)
