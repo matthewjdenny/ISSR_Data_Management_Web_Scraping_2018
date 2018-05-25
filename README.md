@@ -103,9 +103,9 @@ You should be comfortable with R up to the level presented in the **Data Managem
 
 1. **9:00-11:00** Scraping Twitter:  [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2018/blob/master/Scripts/Scraping_Twitter.R), [**[Helpful Tutorial]**](https://github.com/SMAPPNYU/smappR), [**[StreamR Github]**](https://github.com/pablobarbera/streamR).
 2. **11:00-11:10** Break
-3. **11:10-12:00** Text processing and analysis using Quanteda. [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2018/blob/master/Scripts/Text_Processing_and_Analysis.R)
+3. **11:10-12:00** Text processing using Quanteda. [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2018/blob/master/Scripts/Text_Processing_with_Quanteda.R)
 4. **12:00-1:00** Lunch
-5. **1:00-2:00** Text processing and analysis using Quanteda. [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2018/blob/master/Scripts/Text_Processing_and_Analysis.R) 
+5. **1:00-2:00** Text processing using Quanteda. [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2018/blob/master/Scripts/Text_Processing_with_Quanteda.R) 
 6. **2:00-2:10** Break.
 7. **2:10-4:00** Synthesis exercise: [**[Script]**](https://github.com/matthewjdenny/ISSR_Data_Management_Web_Scraping_2018/blob/master/Scripts/Scraping_Example.R).
 8. Time and interest permitting, we can cover advanced topics in text processing.
