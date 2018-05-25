@@ -2,8 +2,8 @@
 
 This Git repo is home to all of the materials you will need if you are taking either or both of the following ISSR workshops: 
 
-* **Data Management in R** (May 29-30, 2018).
-* **Practical Web and Text Scraping** (Mat 31- June 1, 2018).
+* **Data Management in R** (May 29 - 30, 2018).
+* **Practical Web and Text Scraping** (May 31 - June 1, 2018).
 
 You can email me at <mdenny@psu.edu> or <matthewjdenny@gmail.com> with any questions. There are lots of additional materials available on my website at: <http://www.mjdenny.com/teaching.html>, but you will only need to look at the stuff linked to from this page in oder to be successful in this course. To download all of the materials associated with this course, you will want to start by downloading a GUI client for Git. 
 
