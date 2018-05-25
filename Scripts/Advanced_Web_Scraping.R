@@ -1,7 +1,7 @@
 ##### Advanced Web Scraping Tutorial #####
 
 
-# preliminaries, make sure we have the right packages downloaded
+# preliminaries, make sure we have the right packages downloaded:
 # install.packages("rvest", dependencies = TRUE)
 # install.packages("stringr", dependencies = TRUE)
 
@@ -53,7 +53,7 @@ extract_metadata <- function(text) {
 legislator_data <- NULL
 
 # get the total number of pages we will need to scrape
-pages <- ceiling(2240/250)
+pages <- ceiling(2250/250)
 for (i in 1:pages) {
     cat("Currently working on block",i,"of",pages,"\n")
     html <- read_html(paste("https://www.congress.gov/members?pageSize=250&page=",i,sep = ""))
@@ -108,7 +108,7 @@ legislator_data <- data.frame(Name = legislator_data [,1],
                               stringsAsFactors = FALSE)
 
 # save the data
-save(legislator_data, file = "Legislator_Data_1929-2017.Rdata")
+save(legislator_data, file = "Legislator_Data_1929-2018.Rdata")
 
 
 ##################################################
@@ -126,20 +126,12 @@ additional_legislator_data <- NULL
 for (i in 1:nrow(legislator_data)) {
     cat("Currently working on legislator",i,"of",nrow(legislator_data),"\n")
     html <- read_html(legislator_data$URL[i])
-    # use the tags we got off of Selectorgadget to find metadata on bills that
-    # legislator introduced and statistics about them
-    metadata_results <- html_nodes(html, "#content :nth-child(1)")
+
+    # get teh number of bills they sponsored:
+    metadata_results <- html_nodes(html, "#facetItemsponsorshipSponsored_Legislation")
     # get all of the metadata items in a list object
     metadata_list <- html_children(metadata_results)
-
-    # find information about the bills that legislator introduced.
-    for (j in 1:length(metadata_list)) {
-        # break the first time we encounter this string
-        if  (grepl("collapseSponsorship",html_text(metadata_list[[j]]))) {
-            text <- html_text(metadata_list[[j]])
-            break
-        }
-    }
+    bills_sponsored <- html_text(metadata_list[[1]])
 
     # birthdate
     birthdate <- html_nodes(html, ".birthdate")
@@ -149,8 +141,20 @@ for (i in 1:nrow(legislator_data)) {
     bio_link <- html_nodes(html, ".member_bio_link")
     bio_link <- html_attr( bio_link, "href")
 
-    # try writing a function to extract useful information from the 'text'
-    # variable...
+    # use the tags we got off of Selectorgadget to find metadata on bills that
+    # legislator introduced and statistics about them
+    metadata_results <- html_nodes(html, ".expanded-view")
+    # get all of the metadata items in a list object
+    metadata_list <- html_children(metadata_results)
+
+    # find information about the bills that legislator was involved with:
+    for (j in 1:length(metadata_list)) {
+        text <- html_text(metadata_list[[j]])
+        # what do we do from here?
+    }
+
+    # add these data to the data we already had:
+
 
     # make sure we sleep for a full minute to prevent ourselves from being rate
     # limited
